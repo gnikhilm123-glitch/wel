@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unsent</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    background:linear-gradient(180deg,#ffe6f0,#ffd1e8,#fff0f7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:#4b0033;
+}
+
+/* FLOATING LIGHT */
+.light{
+    position:absolute;
+    bottom:-20px;
+    font-size:14px;
+    opacity:0.6;
+    animation:rise 9s linear infinite;
+}
+@keyframes rise{
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+/* CARD */
+.card{
+    width:360px;
+    height:560px;
+    background:rgba(255,255,255,0.85);
+    border-radius:26px;
+    padding:32px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    backdrop-filter:blur(10px);
+    box-shadow:0 30px 70px rgba(255,150,200,0.4);
+    animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.text{
+    font-size:17px;
+    line-height:1.8;
+    opacity:0;
+    animation:appear 1.2s forwards;
+}
+
+@keyframes appear{
+    to{opacity:1}
+}
+
+/* BUTTON */
+button{
+    margin-top:20px;
+    align-self:center;
+    background:#ff9fcf;
+    color:#4b0033;
+    border:none;
+    padding:12px 26px;
+    border-radius:22px;
+    font-size:15px;
+    cursor:pointer;
+}
+button:hover{
+    background:#ff85c2;
+}
+
+.small{
+    font-size:14px;
+    opacity:0.6;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="text" id="pageText"></div>
+
+    <div>
+        <button onclick="nextPage()" id="btn">Next →</button>
+        <div class="small" id="hint"></div>
+    </div>
+</div>
+
+<script>
+/* FLOATING LIGHTS */
+const symbols=["✨","🌸","💫","🤍"];
+setInterval(()=>{
+    const l=document.createElement("div");
+    l.className="light";
+    l.innerHTML=symbols[Math.floor(Math.random()*symbols.length)];
+    l.style.left=Math.random()*100+"vw";
+    l.style.animationDuration=7+Math.random()*4+"s";
+    document.body.appendChild(l);
+    setTimeout(()=>l.remove(),11000);
+},700);
+
+/* PAGES */
+const pages=[
+`I want to say this calmly,
+honestly,
+and without fear.
+
+I’m sorry for my overthinking.
+I let my thoughts create noise
+where there was no danger.
+
+Nothing changed in my heart.
+
+I never wanted distance.
+I never wanted to walk away.`,
+
+`I just got lost in my own thoughts —
+and I’m sorry for that.
+
+Please know this clearly:
+
+I’m not leaving you.
+I will never leave you.
+
+I choose you,
+with a quieter mind
+and a steadier heart 🤍`,
+
+`Suppose in future, if I said
+to leave you never do it.
+
+We need to do lot of things.
+
+Don't ever think of leaving me.
+
+If I got angry please don't leave
+me ,it lasts only for few Hours.
+
+I need you in my life.`
+];
+
+let index=0;
+const textEl=document.getElementById("pageText");
+const btn=document.getElementById("btn");
+const hint=document.getElementById("hint");
+
+function showPage(){
+    textEl.style.opacity=0;
+    setTimeout(()=>{
+        textEl.innerHTML=pages[index].replace(/\n/g,"<br>");
+        textEl.style.opacity=1;
+    },200);
+
+    if(index===pages.length-1){
+        btn.innerText="Stay";
+        hint.innerText="Some feelings just need honesty.";
+    }else{
+        btn.innerText="Next →";
+        hint.innerText="";
+    }
+}
+
+function nextPage(){
+    if(index < pages.length-1){
+        index++;
+        showPage();
+    }else{
+        btn.style.display="none";
+        hint.innerText="Thank you for understanding 🌸";
+    }
+}
+
+/* start */
+showPage();
+</script>
+
+</body>
+</html>
